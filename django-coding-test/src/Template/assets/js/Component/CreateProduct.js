@@ -8,13 +8,28 @@ const CreateProduct = (props) => {
 
     const [productVariantPrices, setProductVariantPrices] = useState([])
 
+
     const [productVariants, setProductVariant] = useState([
         {
             option: 1,
             tags: []
         }
-    ])
-    console.log(typeof props.variants)
+    ]) 
+
+    console.log(productVariantPrices)
+    console.log(productVariants)
+
+    const [product, setProduct] = useState({
+        title:'',
+        sku : '',
+        description : '',
+        file_path:'',
+        productVariants: productVariants,
+        productVariantPrices:productVariantPrices
+
+
+    })
+    
     // handle click event of the Add button
     const handleAddClick = () => {
         let all_variants = JSON.parse(props.variants.replaceAll("'", '"')).map(el => el.id)
@@ -33,6 +48,15 @@ const CreateProduct = (props) => {
         setProductVariant(product_variants)
 
         checkVariant()
+    }
+
+    // handle input change on tag input
+    const handleProduct = (e) => {
+        console.log(e.target.name)
+        setProduct({
+            ...product,
+            [e.target.name] : e.target.name
+        })
     }
 
     // remove product variant
@@ -62,6 +86,8 @@ const CreateProduct = (props) => {
 
     }
 
+    console.log(product)
+
     // combination algorithm
     function getCombn(arr, pre) {
         pre = pre || '';
@@ -90,15 +116,15 @@ const CreateProduct = (props) => {
                             <div className="card-body">
                                 <div className="form-group">
                                     <label htmlFor="">Product Name</label>
-                                    <input type="text" placeholder="Product Name" className="form-control"/>
+                                    <input type="text" placeholder="Product Name" className="form-control" name='title' onChange={handleProduct}/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="">Product SKU</label>
-                                    <input type="text" placeholder="Product Name" className="form-control"/>
+                                    <input type="text" placeholder="Product Name" className="form-control" name='sku'  onChange={handleProduct}/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="">Description</label>
-                                    <textarea id="" cols="30" rows="4" className="form-control"></textarea>
+                                    <textarea placeholder='description' onChange={handleProduct} id="" cols="30" rows="4" name='description' className="form-control"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -161,9 +187,7 @@ const CreateProduct = (props) => {
                                                         }
 
                                                         <section style={{marginTop: "30px"}}>
-                                                            <TagsInput value={element.tags}
-                                                                       style="margin-top:30px"
-                                                                       onChange={(value) => handleInputTagOnChange(value, index)}/>
+                                                            <TagsInput value={element.tags} style="margin-top:30px" onChange={(value) => handleInputTagOnChange(value, index)}/>
                                                         </section>
 
                                                     </div>
@@ -198,11 +222,12 @@ const CreateProduct = (props) => {
                                         <tbody>
                                         {
                                             productVariantPrices.map((productVariantPrice, index) => {
+                                                console.log(productVariantPrices)
                                                 return (
                                                     <tr key={index}>
                                                         <td>{productVariantPrice.title}</td>
-                                                        <td><input className="form-control" type="text"/></td>
-                                                        <td><input className="form-control" type="text"/></td>
+                                                        <td><input className="form-control" type="number"/></td>
+                                                        <td><input className="form-control" type="number"/></td>
                                                     </tr>
                                                 )
                                             })
@@ -215,8 +240,7 @@ const CreateProduct = (props) => {
                     </div>
                 </div>
 
-                <button type="button" onClick={saveProduct} className="btn btn-lg btn-primary">Save</button>
-                <button type="button" className="btn btn-secondary btn-lg">Cancel</button>
+                <button type="button" onClick={saveProduct} className="btn btn-lg btn-primary">Create Product</button>
             </section>
         </div>
     );

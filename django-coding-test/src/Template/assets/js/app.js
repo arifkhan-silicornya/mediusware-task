@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import CreateProduct from "./components/CreateProduct";
+import CreateProduct from "./Component/CreateProduct";
 
 // require('./bootstrap');
 // require('./sb-admin');
